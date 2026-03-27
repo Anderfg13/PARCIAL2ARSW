@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/blueprints")
+@RequestMapping("api/v1/blueprints") //Punto 1 del parcial
 public class BlueprintsAPIController {
 
     private final BlueprintsServices services;
