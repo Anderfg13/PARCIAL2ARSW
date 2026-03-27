@@ -4,8 +4,17 @@
 ---
 
 ## 📋 Requisitos
-- Java 21
-- Maven 3.9+
+- Java 21   OJO se cambio a 17 porque en los computadores de la universidad el proyecto no compilaba
+- Maven 3.9+ Igual aca
+
+Esta fue la parte que se modificó:
+
+```bash
+  <properties>
+    <java.version>17</java.version>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
+```
 
 ## ▶️ Ejecución del proyecto
 ```bash
@@ -33,14 +42,17 @@ Abrir en navegador:
 src/main/java/edu/eci/arsw/blueprints
   ├── model/         # Entidades de dominio: Blueprint, Point
   ├── persistence/   # Interfaz + repositorios (InMemory, Postgres)
-  │    └── impl/     # Implementaciones concretas
+  │    └── impl/     # Implementaciones 
+  ├── dto/         # Data Object Transfer   BlueprintDTO, PointDTO, BlueprintMapper
+  concretas
   ├── services/      # Lógica de negocio y orquestación
   ├── filters/       # Filtros de procesamiento (Identity, Redundancy, Undersampling)
   ├── controllers/   # REST Controllers (BlueprintsAPIController)
   └── config/        # Configuración (Swagger/OpenAPI, etc.)
 ```
 
-> Esta separación sigue el patrón **capas lógicas** (modelo, persistencia, servicios, controladores), facilitando la extensión hacia nuevas tecnologías o fuentes de datos.
+> Esta separación sigue el patrón **capas lógicas** (modelo, persistencia, servicios, controladores, dto), facilitando la extensión hacia nuevas tecnologías o fuentes de datos.
+Nota: Se agregó la capa de DTO, para facilitar el uso de las ApiResponses, por su estructura de "data": { "author": "john", "name": "house", "points": [...] }
 
 ---
 
@@ -49,6 +61,8 @@ src/main/java/edu/eci/arsw/blueprints
 ### 1. Buenas prácticas de API REST (Path)
 - Cambia el path base de los controladores a `/api/v1/blueprints`.  
 
+![alt text](img/image.png)
+
 ### 2. Buenas prácticas de API REST (Errores Http)
 - Usa **códigos HTTP** correctos:  
   - `200 OK` (consultas exitosas).  Todas las peticiones GET.
@@ -56,6 +70,9 @@ src/main/java/edu/eci/arsw/blueprints
   - `202 Accepted` (actualizaciones).  La petición PUT.
   - `400 Bad Request` (datos inválidos). Peticiones POST y PUT. 
   - `404 Not Found` (recurso inexistente o no se encuentra la data solicitada). Peticiones GET y PUT.
+
+![alt text](img/image2.png)
+
 ### 3. Buenas prácticas de API REST (Respuesta estandar)
 - Implementa una clase genérica de respuesta uniforme:
   ```java
@@ -70,10 +87,29 @@ src/main/java/edu/eci/arsw/blueprints
   }
   ```
 
+![alt text](img/image-1.png)
+
+>Nota: La imagen es de un endpoint GET, por lo que por eso data, sale vacio.
+
 ### 4. OpenAPI / Swagger (Bono)
 - Configura `springdoc-openapi` en el proyecto.  
+
+```bash
+<dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+```
+> **NOTA:** Está en el archivo pom.xml
+
 - Expón documentación automática en `/swagger-ui.html`.  
+
+![alt text](img/image4.png)
+
 - Actualiza la documentación de los endpoints con `@Operation` y `@ApiResponse` de todos los métodos del controler.
+
+![alt text](img/image3.png)
 
 
 ## ✅ Entregables

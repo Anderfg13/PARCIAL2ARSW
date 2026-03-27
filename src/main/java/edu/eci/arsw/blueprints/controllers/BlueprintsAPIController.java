@@ -7,7 +7,6 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -15,11 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import edu.eci.arsw.blueprints.dto.BlueprintDTO;
 import edu.eci.arsw.blueprints.dto.PointDTO;
-import edu.eci.arsw.blueprints.*;
 import edu.eci.arsw.blueprints.dto.BlueprintMapper;
-import edu.eci.arsw.blueprints.controllers.ApiRespons;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,10 +43,10 @@ public class BlueprintsAPIController {
         )
     })
     @GetMapping
-    public ResponseEntity<ApiRespons<Set<BlueprintDTO>>> getAll() {
+    public ResponseEntity<ApiResponse<Set<BlueprintDTO>>> getAll() {
         Set<Blueprint> data = services.getAllBlueprints();
         Set<BlueprintDTO> dtoSet = data.stream().map(BlueprintMapper::toDTO).collect(java.util.stream.Collectors.toSet());
-        return ResponseEntity.ok(new ApiRespons<>(200, "Success", dtoSet));
+        return ResponseEntity.ok(new ApiResponse<>(200, "Success", dtoSet));
     }
 
     // GET /blueprints/{author}
@@ -69,14 +65,14 @@ public class BlueprintsAPIController {
         )
     })
     @GetMapping("/{author}")
-    public ResponseEntity<ApiRespons<Set<BlueprintDTO>>> byAuthor(@PathVariable String author) {
+    public ResponseEntity<ApiResponse<Set<BlueprintDTO>>> byAuthor(@PathVariable String author) {
         try {
             Set<Blueprint> data = services.getBlueprintsByAuthor(author);
             Set<BlueprintDTO> dtoSet = data.stream().map(BlueprintMapper::toDTO).collect(java.util.stream.Collectors.toSet());
-            return ResponseEntity.ok(new ApiRespons<>(200, "Success", dtoSet)); // 200 OK
+            return ResponseEntity.ok(new ApiResponse<>(200, "Success", dtoSet)); // 200 OK
         } catch (BlueprintNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiRespons<>(404, e.getMessage(), null)); // 404 Not Found
+                .body(new ApiResponse<>(404, e.getMessage(), null)); // 404 Not Found
         }
     }
 
@@ -97,14 +93,14 @@ public class BlueprintsAPIController {
         )
     })
     @GetMapping("/{author}/{bpname}")
-    public ResponseEntity<ApiRespons<BlueprintDTO>> byAuthorAndName(@PathVariable String author, @PathVariable String bpname) {
+    public ResponseEntity<ApiResponse<BlueprintDTO>> byAuthorAndName(@PathVariable String author, @PathVariable String bpname) {
         try {
             Blueprint data = services.getBlueprint(author, bpname);
             BlueprintDTO dto = BlueprintMapper.toDTO(data);
-            return ResponseEntity.ok(new ApiRespons<>(200, "Success", dto)); // 200 OK
+            return ResponseEntity.ok(new ApiResponse<>(200, "Success", dto)); // 200 OK
         } catch (BlueprintNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiRespons<>(404, e.getMessage(), null)); // 404 Not Found
+                .body(new ApiResponse<>(404, e.getMessage(), null)); // 404 Not Found
         }
     }
 
@@ -135,7 +131,7 @@ public class BlueprintsAPIController {
         )
     })
     @PostMapping
-    public ResponseEntity<ApiRespons<Void>> add(@Valid @RequestBody NewBlueprintRequest req) {
+    public ResponseEntity<ApiResponse<Void>> add(@Valid @RequestBody NewBlueprintRequest req) {
         try {
             List<Point> points = req.points().stream()
                     .map(p -> new Point(p.x(), p.y()))
@@ -143,10 +139,10 @@ public class BlueprintsAPIController {
             Blueprint bp = new Blueprint(req.author(), req.name(), points);
             services.addNewBlueprint(bp);
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiRespons<>(201, "Created", null)); // 201 Created
+                .body(new ApiResponse<>(201, "Created", null)); // 201 Created
         } catch (BlueprintPersistenceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ApiRespons<>(400, e.getMessage(), null)); // 400 Bad Request
+                .body(new ApiResponse<>(400, e.getMessage(), null)); // 400 Bad Request
         }
     }
 
@@ -176,15 +172,15 @@ public class BlueprintsAPIController {
         )
     })
     @PutMapping("/{author}/{bpname}/points")
-    public ResponseEntity<ApiRespons<Void>> addPoint(@PathVariable String author, @PathVariable String bpname,
+    public ResponseEntity<ApiResponse<Void>> addPoint(@PathVariable String author, @PathVariable String bpname,
                                       @RequestBody PointDTO p) {
         try {
             services.addPoint(author, bpname, p.getX(), p.getY());
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiRespons<>(201, "Created", null)); // 201 Created
+                .body(new ApiResponse<>(201, "Created", null)); // 201 Created
         } catch (BlueprintNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ApiRespons<>(404, e.getMessage(), null)); // 404 Not Found
+                .body(new ApiResponse<>(404, e.getMessage(), null)); // 404 Not Found
         }
     }
 
