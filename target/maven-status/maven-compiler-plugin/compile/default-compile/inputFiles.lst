@@ -1,6 +1,10 @@
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\BlueprintsApplication.java
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\config\OpenApiConfig.java
+C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\controllers\ApiRespons.java
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\controllers\BlueprintsAPIController.java
+C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\dto\BlueprintDTO.java
+C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\dto\BlueprintMapper.java
+C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\dto\PointDTO.java
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\filters\BlueprintsFilter.java
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\filters\IdentityFilter.java
 C:\Users\anderson.garcia-n\Documents\Parcial 2 ARSW\PARCIAL2ARSW\src\main\java\edu\eci\arsw\blueprints\filters\RedundancyFilter.java
